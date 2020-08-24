@@ -111,11 +111,12 @@ class TodoAppBloc {
     if (_activeCategory.value?.id == category.id) {
       showCategory(null);
     }
-
     db.deleteCategory(category);
   }
 
-  void dispose() {
+  void dispose() async {
+    await db.close();
     _allCategories.close();
+    _activeCategory.close();
   }
 }

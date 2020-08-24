@@ -40,7 +40,7 @@ class CategoryItem extends StatelessWidget {
                 ),
               ),
               Text(
-                categoryWithCount.category.description,
+                localisedString(context, '${categoryWithCount.category.description}'),
                 style: categoryTextStyle,
               ),
               SizedBox(

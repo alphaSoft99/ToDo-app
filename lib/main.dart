@@ -34,17 +34,26 @@ void backgroundFetchHeadlessTask(String taskId) async {
     )).then((value) async {
       final now = DateTime.now();
       final Database db =constructDb(logStatements: true);
-      final todoEntry = await db.getEntry(now);
-      if(todoEntry != null){
+      final todoEntries = await db.getEntry(DateTime(now.year, now.month, now.day, now.hour, now.minute, 0, 0, 0));
+      final entry = todoEntries.isNotEmpty? todoEntries[0] : null;
+      if(entry!=null){
+        String lang = await getLanguage();
+        String category = '';
+        switch(lang){
+          case 'uz': category = getCategoryTextUz(entry.category); break;
+          case 'ru': category = getCategoryTextRu(entry.category); break;
+          case 'en': category = getCategoryTextEn(entry.category); break;
+        }
         var androidPlatformChannelSpecifics = AndroidNotificationDetails(
             'ToDo', 'ToDo notification', 'The notification reminds you of tasks',
             importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
         var iOSPlatformChannelSpecifics = IOSNotificationDetails();
         var platformChannelSpecifics = NotificationDetails(
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        await flutterLocalNotificationsPlugin.show(todoEntry.id, getCategoryText(todoEntry.category), todoEntry.content, platformChannelSpecifics,
+        await flutterLocalNotificationsPlugin.show(entry.id, category, entry.content, platformChannelSpecifics,
             payload: 'item x');
       }
+      db.close();
     });
   }
 }
@@ -268,7 +277,7 @@ class _MainState extends State<Main> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        MainPage(),
+                        Main(),
                   ),
                 );
               },
@@ -283,10 +292,11 @@ class _MainState extends State<Main> {
     selectNotificationSubject.stream.listen((String payload) async {
       await Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MainPage()));
+          MaterialPageRoute(builder: (context) => Main()));
     });
   }
 
+/*
   Future onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
     // display a dialog with the notification details, tap ok to go to another page
@@ -304,7 +314,7 @@ class _MainState extends State<Main> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MainPage(),
+                  builder: (context) => Main(),
                 ),
               );
             },
@@ -318,8 +328,9 @@ class _MainState extends State<Main> {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-    await Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()),);
+    await Navigator.push(context, MaterialPageRoute(builder: (context) => Main()),);
   }
+*/
 }
 
 

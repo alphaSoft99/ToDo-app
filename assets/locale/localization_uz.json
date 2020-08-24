@@ -29,5 +29,11 @@
   "reminders_made_simple": "Eslatmalar sodda",
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pellentesque erat in blandit luctus.",
   "get_started": "Boshlamoq",
-  "ok": "Ok"
+  "ok": "Ok",
+  "personal": "Shaxsiy",
+  "work": "Ish",
+  "meeting": "Uchrashuv",
+  "shopping": "Savdo",
+  "party": "Bayram",
+  "study": "O'qish"
 }

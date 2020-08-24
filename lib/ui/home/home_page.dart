@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   DateTime _dateTime = DateTime.now();
 
   bool hasTitle(DateTime dateTime){
-    print(dateTime);
     if(dateTime.day > _dateTime.day && dateTime.month >= _dateTime.month && dateTime.year >= _dateTime.year || dateTime.month > _dateTime.month && dateTime.year >= _dateTime.year || dateTime.year > _dateTime.year){
       _dateTime = dateTime;
       return true;

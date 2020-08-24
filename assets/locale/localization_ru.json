@@ -29,5 +29,11 @@
   "reminders_made_simple": "Напоминания стали проще",
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pellentesque erat in blandit luctus.",
   "get_started": "Начать",
-  "ok": "Ok"
+  "ok": "Ok",
+  "personal": "Личное",
+  "work": "Работа",
+  "meeting": "Встреча",
+  "shopping": "Покупки",
+  "party": "Праздник",
+  "study": "Обучение"
 }

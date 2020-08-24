@@ -29,5 +29,11 @@
   "reminders_made_simple": "Reminders made simple",
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pellentesque erat in blandit luctus.",
   "get_started": "Get Started",
-  "ok": "Ok"
+  "ok": "Ok",
+  "personal": "Personal",
+  "work": "Work",
+  "meeting": "Meeting",
+  "shopping": "Shopping",
+  "party": "Party",
+  "study": "Study"
 }

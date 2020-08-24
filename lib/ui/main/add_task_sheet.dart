@@ -146,7 +146,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        isToday() ? "${localisedString(context, 'today')}, ${_dateTime.hour.toString().padLeft(2)} : ${_dateTime.minute.toString().padLeft(2)}" : "${localisedString(context, "month_${_dateTime.month}")} ${_dateTime.day}, ${_dateTime.hour.toString().padLeft(2)} : ${_dateTime.minute.toString().padLeft(2)}",
+                        isToday() ? "${localisedString(context, 'today')}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}" : "${localisedString(context, "month_${_dateTime.month}")} ${_dateTime.day}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}",
                         style: titleTextStyle.copyWith(fontWeight: FontWeight.w600, color: Color(0xFF404040)),
                       ),
                       SizedBox(
@@ -184,7 +184,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                             showErrorContext = false;
                           });
                         }
-                        widget.bloc.createEntry(TodoEntry(id: 0, content: _controller.text, notification: true, done: false, targetDate: _dateTime, category: categoryId));
+                        widget.bloc.createEntry(TodoEntry(id: 0, content: _controller.text, notification: true, done: false, targetDate: DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour, _dateTime.minute, 0, 0, 0), category: categoryId));
                         Navigator.pop(context);
                     },
                     child: Center(

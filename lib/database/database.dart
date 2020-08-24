@@ -71,22 +71,22 @@ class Database extends _$Database {
           // create default categories and entries
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Personal'), id: Value(0)));
+                  description: Value('personal'), id: Value(0)));
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Work'), id: Value(1)));
+                  description: Value('work'), id: Value(1)));
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Meeting'), id: Value(2)));
+                  description: Value('meeting'), id: Value(2)));
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Shopping'), id: Value(3)));
+                  description: Value('shopping'), id: Value(3)));
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Party'), id: Value(4)));
+                  description: Value('party'), id: Value(4)));
           await into(categories).insert(
               const CategoriesCompanion(
-                  description: Value('Study'), id: Value(5)));
+                  description: Value('study'), id: Value(5)));
           //TODO setExample
           /*await into(todos).insert(TodosCompanion(
             category: Value(1),
@@ -170,6 +170,8 @@ class Database extends _$Database {
     final query = select(todos);
     query.where(
         (tbl) => tbl.targetDate.isBiggerOrEqualValue(dateTime));
+    query.where(
+        (tbl) => tbl.targetDate.day.equals(dateTime.day));
     query.where((tbl) => tbl.notification.equals(true));
     query.where((tbl) => tbl.done.equals(false));
     query.orderBy([(t) => OrderingTerm(expression: t.targetDate)]);
@@ -202,14 +204,14 @@ class Database extends _$Database {
     return query.watch();
   }
 
-  Future<TodoEntry> getEntry(DateTime dateTime) async {
+  Future<List<TodoEntry>> getEntry(DateTime dateTime) async {
     final query = select(todos);
     query.where(
             (tbl) => tbl.targetDate.equals(dateTime));
     query.where((tbl) => tbl.notification.equals(true));
     query.where((tbl) => tbl.done.equals(false));
     query.orderBy([(t) => OrderingTerm(expression: t.targetDate)]);
-    return query.getSingle();
+    return query.get();
   }
 
   Future createEntry(TodosCompanion entry) {

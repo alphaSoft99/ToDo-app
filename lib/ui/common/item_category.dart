@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/utils/category.dart';
+import 'package:todo/utils/language_constants.dart';
 import 'package:todo/utils/styleguide.dart';
 
 class ItemCategory extends StatefulWidget {
@@ -103,7 +104,7 @@ class _ItemCategoryState extends State<ItemCategory>
                             left: _textLeftPaddingAnimation.value,
                           ),
                           child: Text(
-                            widget.category.description,
+                            localisedString(context, '${widget.category.description}'),
                             textAlign: TextAlign.center,
                             style: categoryTitleTextStyle.copyWith(
                                 color: _textColorAnimation.value),
