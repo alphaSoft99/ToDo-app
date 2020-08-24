@@ -21,6 +21,6 @@ Project technologies:
 - moor
 - rxDart
 - local notification
-- background servise
+- background service
 - beatiful animation
 - multi lamguage
