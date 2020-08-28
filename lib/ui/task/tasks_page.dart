@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/blocs/bloc.dart';
+import 'package:todo/database/database.dart';
 import 'package:todo/ui/common/category_item.dart';
 import 'package:todo/ui/main/navigation.dart';
 
@@ -7,8 +8,9 @@ class TasksPage extends StatelessWidget {
 
   final TodoAppBloc bloc;
   final MainNotifier mainNotifier;
+  final List<Category> categories;
 
-  TasksPage({this.bloc, this.mainNotifier});
+  TasksPage({this.bloc, this.mainNotifier, this.categories});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class TasksPage extends StatelessWidget {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
           children: List.generate(snapshot.hasData? 6: 0, (index){
-              return CategoryItem(categoryWithCount: snapshot.data[index].categoryWithCount);
+              return CategoryItem(categoryWithCount: snapshot.data[index].categoryWithCount, categories: categories, bloc: bloc,);
           }),
         );
       },

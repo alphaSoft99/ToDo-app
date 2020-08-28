@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class BottomNavBar extends StatelessWidget {
 

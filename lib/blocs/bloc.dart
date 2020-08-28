@@ -27,12 +27,14 @@ class TodoAppBloc {
   final BehaviorSubject<Category> _activeCategory =
       BehaviorSubject.seeded(null);
 
-//  Observable<List<EntryWithCategory>> _currentEntries;
+  Observable<List<EntryWithCategory>> _currentEntries;
 
   Stream<List<TodoEntry>> _homeEntries;
 
   /// A stream of entries that should be displayed on the home screen.
   Stream<List<TodoEntry>> get homeScreenEntries => _homeEntries;
+
+  Observable<List<EntryWithCategory>> get taskScreenEntries => _currentEntries;
 
   final BehaviorSubject<List<CategoryWithActiveInfo>> _allCategories = BehaviorSubject();
 
@@ -46,7 +48,7 @@ class TodoAppBloc {
   TodoAppBloc() : db = constructDb(logStatements: true) {
     // listen for the category to change. Then display all entries that are in
     // the current category on the home screen.
-//    _currentEntries = _activeCategory.switchMap(db.watchEntriesInCategory);
+    _currentEntries = _activeCategory.switchMap(db.watchEntriesInCategory);
 
     _homeEntries = db.watchEntries(DateTime(dateTimeNow.year, dateTimeNow.month, dateTimeNow.day, 0, 0));
 

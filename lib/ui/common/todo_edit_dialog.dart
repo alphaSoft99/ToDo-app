@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:todo/blocs/provider.dart';
 import 'package:todo/database/database.dart';
 
-final _dateFormat = DateFormat.yMMMd();
-
-//TODO 2 - version add
 class TodoEditDialog extends StatefulWidget {
   final TodoEntry entry;
 
@@ -34,11 +30,6 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var formattedDate = 'No date set';
-    if (_dueDate != null) {
-      formattedDate = _dateFormat.format(_dueDate);
-    }
-
     return AlertDialog(
       title: const Text('Edit entry'),
       content: Column(
@@ -53,7 +44,7 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
           ),
           Row(
             children: <Widget>[
-              Text(formattedDate),
+              Text('formattedDate'),
               Spacer(),
               IconButton(
                 icon: const Icon(Icons.calendar_today),

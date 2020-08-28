@@ -10,7 +10,7 @@ import 'package:todo/database/database/mobile.dart';
 import 'package:todo/ui/main/mian_page.dart';
 import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/utils/category.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 import 'package:todo/utils/translations.dart';
 import 'package:todo/utils/language_constants.dart';
 import 'blocs/bloc.dart';
@@ -26,7 +26,7 @@ void backgroundFetchHeadlessTask(String taskId) async {
   if (taskId == 'alpha.soft.todo') {
     BackgroundFetch.scheduleTask(TaskConfig(
         taskId: "alpha.soft.todo",
-        delay: 59000,
+        delay: 60000,
         periodic: false,
         forceAlarmManager: true,
         stopOnTerminate: false,
@@ -128,7 +128,7 @@ class _MainState extends State<Main> {
   Future<void> initPlatformState() async {
     // Configure BackgroundFetch.
     BackgroundFetch.configure(BackgroundFetchConfig(
-      minimumFetchInterval: 15,
+      minimumFetchInterval: 1440,
       forceAlarmManager: false,
       stopOnTerminate: false,
       startOnBoot: true,
@@ -149,7 +149,7 @@ class _MainState extends State<Main> {
     // where device must be powered (and delay will be throttled by the OS).
     BackgroundFetch.scheduleTask(TaskConfig(
         taskId: "alpha.soft.todo",
-        delay: 10000,
+        delay: 60000,
         periodic: false,
         forceAlarmManager: true,
         stopOnTerminate: false,
@@ -172,7 +172,7 @@ class _MainState extends State<Main> {
       // Schedule a one-shot task when fetch event received (for testing).
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "alpha.soft.todo",
-          delay: 59000,
+          delay: 60000,
           periodic: false,
           forceAlarmManager: true,
           stopOnTerminate: false,

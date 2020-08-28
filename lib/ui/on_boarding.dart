@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/storageUtil.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/storage_util.dart';
+import 'package:todo/utils/style_guide.dart';
 
 import 'main/mian_page.dart';
 

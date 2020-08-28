@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo/main.dart';
 import 'package:todo/utils/language_constants.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class ChangeLanguagePage extends StatefulWidget {
 
@@ -46,9 +47,9 @@ class _ChangeLanguagePageState extends State<ChangeLanguagePage> {
           color: Colors.black, //change your color here
         ),
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+          icon: SvgPicture.asset(
+            'assets/svg/backward.svg',
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -56,10 +57,11 @@ class _ChangeLanguagePageState extends State<ChangeLanguagePage> {
         ),
         elevation: 1,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF81C7F5),
 //          title: Text(localisedString(context, 'language'), style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 17)),
       ),
       body: _buildBody(),
+      backgroundColor: whiteColor,
     );
   }
 

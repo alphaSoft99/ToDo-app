@@ -11,7 +11,7 @@ import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/ui/splash.dart';
 import 'package:todo/ui/task/tasks_page.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 import 'my_floating_action_button.dart';
 
 class MainPage extends StatefulWidget {
@@ -105,9 +105,13 @@ class MainPageState extends State<MainPage>
                         ),
                       ),
                     ),
-                    body: mainNotifier.index == 0
-                        ? HomePage(bloc: bloc, mainNotifier: mainNotifier,)
-                        : TasksPage(bloc: bloc, mainNotifier: mainNotifier),
+                    body: IndexedStack(
+                      children: [
+                        HomePage(bloc: bloc, mainNotifier: mainNotifier, categories: snapshot.data.categories,),
+                        TasksPage(bloc: bloc, mainNotifier: mainNotifier, categories: snapshot.data.categories,),
+                      ],
+                      index: mainNotifier.index,
+                    ),
                     bottomNavigationBar: Visibility(
                       visible: !mainNotifier.isOpen,
                       child: BottomNavBar(

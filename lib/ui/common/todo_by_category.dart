@@ -11,11 +11,11 @@ import 'package:todo/utils/language_constants.dart';
 import 'package:todo/utils/style_guide.dart';
 import 'item_edit_category.dart';
 /// Card that displays an entry and an icon buttons to delete or edit that entry
-class TodoCard extends StatelessWidget {
+class TodoByCategoryCard extends StatelessWidget {
   final TodoEntry entry;
   final List<Category> categories;
   final TextEditingController textController = TextEditingController();
-  TodoCard({this.entry, this.categories}) : super(key: ObjectKey(entry.id));
+  TodoByCategoryCard({this.entry, this.categories}) : super(key: ObjectKey(entry.id));
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +57,6 @@ class TodoCard extends StatelessWidget {
                   icon: Icon(
                     Icons.notifications,
                     color: entry.notification ?  Color(0xFFFFDC00) : Color(0xFFD9D9D9),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: 4,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: getCategoryColor(entry.category),
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8),)
                   ),
                 ),
               ),

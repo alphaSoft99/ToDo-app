@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo/ui/profile/change_language_page.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo/ui/setting/change_language_page.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class MainAppBarBackground extends StatelessWidget {
   @override
@@ -36,14 +37,10 @@ class MainAppBarBackground extends StatelessWidget {
               Navigator.push(context, MaterialPageRoute(builder: (context)=> ChangeLanguagePage()));
             },
             child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Image.asset(
-                  "assets/images/flutter.png",
-                  height: 28,
-                  width: 28,
-                ),
+              backgroundColor: whiteColor,
+              child: SvgPicture.asset(
+                "assets/svg/settings.svg",
+                color: Color(0xFF32A6DE),
               ),
             ),
           ),

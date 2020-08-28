@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/utils/category.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class ItemCategory extends StatefulWidget {
   final Category category;

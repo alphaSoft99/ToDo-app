@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo/blocs/bloc.dart';
 import 'package:todo/database/database.dart';
+import 'package:todo/ui/task/category_page.dart';
 import 'package:todo/utils/category.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class CategoryItem extends StatelessWidget {
 
   final CategoryWithCount categoryWithCount;
+  final List<Category> categories;
+  final TodoAppBloc bloc;
 
-  CategoryItem({this.categoryWithCount});
+  CategoryItem({this.categoryWithCount, this.categories,this.bloc});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
       child: InkWell(
-        onTap: (){},
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryPage(category: categoryWithCount.category, categories: categories, bloc: bloc,),));
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),

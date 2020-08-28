@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:todo/blocs/bloc.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/ui/common/item_category.dart';
 import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 import 'm_clipper.dart';
 
@@ -41,7 +42,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   }
 
   bool isToday(){
-    return dateTime.day == _dateTime.day && dateTime.month == dateTime.month && dateTime.year == _dateTime.year;
+    return dateTime.day == _dateTime.day && dateTime.month == _dateTime.month && dateTime.year == _dateTime.year;
   }
 
   @override
@@ -154,8 +155,13 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 2),
-                        child: Icon(Icons.keyboard_arrow_down, size: 24, color: Colors.black,),
-                      )
+                        child: SvgPicture.asset(
+                          'assets/svg/following.svg',
+                          height: 12,
+                          width: 12,
+                          color: Colors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ),

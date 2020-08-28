@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class AppBarNotification extends StatelessWidget {
 

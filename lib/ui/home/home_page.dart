@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,14 +6,15 @@ import 'package:todo/database/database.dart';
 import 'package:todo/ui/common/todo_card.dart';
 import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/utils/language_constants.dart';
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 class HomePage extends StatefulWidget {
 
   final TodoAppBloc bloc;
   final MainNotifier mainNotifier;
+  final List<Category> categories;
 
-  HomePage({this.bloc, this.mainNotifier});
+  HomePage({this.bloc, this.mainNotifier, this.categories});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -36,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   String getTitle(DateTime dateTime, BuildContext context){
     if(dateTime.day == today.day && dateTime.month == today.month && dateTime.year == today.year)
       return localisedString(context, 'today');
-    if(dateTime.day == today.day + 1 && dateTime.month == today.month && dateTime.year == today.year)
+    else if(dateTime.day == today.day + 1 && dateTime.month == today.month && dateTime.year == today.year)
       return localisedString(context, 'tomorrow');
     else
       return '${dateTime.day} ${localisedString(context, 'month_${dateTime.month}')}';
@@ -84,10 +83,10 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.only(top: 12, bottom: 16),
                         child: Text(getTitle(snapshot.data[0].targetDate, context), style: fadedTextStyle.copyWith(fontSize: 14),),
                       ),
-                      TodoCard(snapshot.data[index]),
+                      TodoCard(entry: snapshot.data[index], categories: widget.categories,),
                     ],
                   );
-                return TodoCard(snapshot.data[index]);
+                return TodoCard(entry: snapshot.data[index], categories: widget.categories,);
               },
             ),
           );

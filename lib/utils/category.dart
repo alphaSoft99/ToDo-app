@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:todo/utils/styleguide.dart';
+import 'package:todo/utils/style_guide.dart';
 
 enum Categories { personal, work, meeting, shopping, party, study }
 
