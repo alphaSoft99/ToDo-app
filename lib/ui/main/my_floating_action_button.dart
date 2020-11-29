@@ -18,17 +18,16 @@ class MyFloatingActionButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () {
         if(mainNotifier.isOpen){
-            mainNotifier.changeBottomSheet(false);
+          mainNotifier.changeBottomSheet(false);
           Navigator.pop(context);
         }
         else {
           final bottomSheetController = showBottomSheet(
-
               context: context,
               backgroundColor: Colors.transparent,
               builder: (context) => AddTaskSheet(
                 bloc: bloc,
-                mainNotifier: mainNotifier,
+                categoryId: mainNotifier.categoryId,
                 categories: categories,
               ));
           mainNotifier.changeBottomSheet(true);
@@ -48,7 +47,8 @@ class MyFloatingActionButton extends StatelessWidget {
                   colors: [
                     Color(0xFFF857C3),
                     Color(0xFFE0139C),
-                  ]),
+                  ],
+              ),
             ),
           ),
           Align(

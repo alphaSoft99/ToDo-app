@@ -1,12 +1,13 @@
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/blocs/provider.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/utils/category.dart';
+import 'package:todo/utils/custom_datetime_picker/flutter_datetime_picker.dart';
+import 'package:todo/utils/custom_datetime_picker/src/i18n_model.dart';
 import 'package:todo/utils/language_constants.dart';
 import 'package:todo/utils/style_guide.dart';
 import 'item_edit_category.dart';
@@ -132,19 +133,19 @@ class TodoByCategoryCard extends StatelessWidget {
       context: context,
       builder: (context) =>
           AlertDialog(
-            title: const Text('Edit entry'),
+            title: Text(localisedString(context, 'edit_entry')),
             scrollable: true,
             content: DialogContent(entry: entry, updateEntry: updateEntry, textEditingController: textController, categories: categories,),
             actions: [
               FlatButton(
-                child: const Text('Cancel'),
+                child: Text(localisedString(context, 'cancel')),
                 textColor: Colors.black,
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               FlatButton(
-                child: const Text('Save'),
+                child: Text(localisedString(context, 'save')),
                 onPressed: () {
                   todoEntry = todoEntry.copyWith(
                     content: textController.text.isNotEmpty? textController.text : entry.content,
@@ -196,10 +197,15 @@ class _DialogContentState extends State<DialogContent> {
   @override
   Widget build(BuildContext context) {
     var locale = Localizations.localeOf(context).toString();
-    bool isEnglish  = locale == 'en';
+    LocaleType localeType;
+    switch(locale){
+      case 'en': localeType = LocaleType.en; break;
+      case 'ru': localeType = LocaleType.ru; break;
+      case 'uz': localeType = LocaleType.uz; break;
+    }
 
     return  Container(
-      height: 256,
+      height: 232,
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -219,16 +225,15 @@ class _DialogContentState extends State<DialogContent> {
           SizedBox(
             height: 8,
           ),
-          Wrap(
-            children: [
-              for(int i =0; i< widget.categories.length; i++)
-                  ItemEditCategory(
-                  category: widget.categories[i],
+          GridView.count(
+              crossAxisCount: 2,
+              children: List.generate(widget.categories.length, (index) {
+                return ItemEditCategory(
+                  category: widget.categories[index],
                   changePos: changePos,
                   pos: todoEntry.category,
-                ),
-            ],
-          ),
+                );
+              })),
           Padding(
             padding: const EdgeInsets.only(top: 6, bottom: 9),
             child: Divider(
@@ -252,7 +257,7 @@ class _DialogContentState extends State<DialogContent> {
                   });
                 },
                 currentTime: todoEntry.targetDate,
-                locale: isEnglish ? LocaleType.en : LocaleType.ru,
+                locale: localeType,
               );
             },
             child: Row(

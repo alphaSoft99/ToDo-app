@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 final TextStyle fadedTextStyle = TextStyle(
@@ -81,3 +83,25 @@ Color meetingColor = Color(0xFFD10263);
 Color shoppingColor = Color(0xFFEC6C0B);
 Color partyColor = Color(0xFF09ACCE);
 Color studyColor = Color(0xFFBF0080);
+
+
+double bottomPaddingForIos(BuildContext context) {
+  double height = MediaQuery.of(context).size.height;
+  if (Platform.isAndroid) {
+    return 16.0;
+  } else {
+    if (height > 800) {
+      return 20.0;
+    } else {
+      return 16.0;
+    }
+  }
+}
+
+double buttonHeightForPlatform(double height) {
+  if (Platform.isAndroid) {
+    return height;
+  } else {
+    return height + 16;
+  }
+}

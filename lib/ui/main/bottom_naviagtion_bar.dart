@@ -13,7 +13,7 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return SizedBox(
-      height: 64,
+      height: buttonHeightForPlatform(64),
       child: BottomNavigationBar(
         currentIndex: mainNotifier.index,
         onTap: mainNotifier.changeIndex,

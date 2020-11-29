@@ -67,7 +67,7 @@ class AppBarNotification extends StatelessWidget {
             alignment: Alignment.topRight,
             child: IconButton(
               onPressed: () {
-                mainNotifier.changeNotification(false);
+                mainNotifier.changeNotificationWith(false);
               },
               icon: Icon(
                 Icons.clear,

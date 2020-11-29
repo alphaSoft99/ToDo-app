@@ -36,5 +36,14 @@
   "meeting": "Meeting",
   "shopping": "Shopping",
   "party": "Party",
-  "study": "Study"
+  "study": "Study",
+  "edit_entry": "Edit entry",
+  "what_need" : "What needs to be done?",
+  "content_of_entry": "Content of entry",
+  "formatted_date": "Formatted Date",
+  "cancel": "Cancel",
+  "save": "Save",
+  "add_category": "Add a category",
+  "name_category": "Name of the category",
+  "add": "Add"
 }

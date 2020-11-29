@@ -46,6 +46,16 @@ class MainNotifier with ChangeNotifier {
     if (b && !_isChange) {
       _isChange = b;
       _showNotification = b;
+    }
+    else if(_showNotification && _isChange){
+      _showNotification = b;
+    }
+  }
+
+  void changeNotificationWith(bool b) {
+    if (b && !_isChange) {
+      _isChange = b;
+      _showNotification = b;
       notifyListeners();
     }
     else if(_showNotification && _isChange){

@@ -128,7 +128,7 @@ class _MainState extends State<Main> {
   Future<void> initPlatformState() async {
     // Configure BackgroundFetch.
     BackgroundFetch.configure(BackgroundFetchConfig(
-      minimumFetchInterval: 1440,
+      minimumFetchInterval: 2881,
       forceAlarmManager: false,
       stopOnTerminate: false,
       startOnBoot: true,

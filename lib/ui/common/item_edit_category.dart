@@ -73,8 +73,8 @@ class _ItemEditCategoryState extends State<ItemEditCategory>
               });
             },
             child: Container(
-              height: 40,
-              width: 120,
+              height: 36,
+              width: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
               ),

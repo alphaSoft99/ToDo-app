@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/utils/language_constants.dart';
 
 
 //TODO 2-version add category
@@ -21,7 +22,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Add a category',
+                localisedString(context, 'add_category'),
                 style: Theme.of(context).textTheme.title,
               ),
             ),
@@ -29,14 +30,14 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
               controller: _controller,
               autofocus: true,
               decoration: InputDecoration(
-                labelText: 'Name of the category',
+                labelText: localisedString(context, 'name_category'),
               ),
               onSubmitted: (_) => _addEntry(),
             ),
             ButtonBar(
               children: [
                 FlatButton(
-                  child: const Text('Add'),
+                  child: Text(localisedString(context, 'add')),
                   textColor: Theme.of(context).accentColor,
                   onPressed: _addEntry,
                 ),

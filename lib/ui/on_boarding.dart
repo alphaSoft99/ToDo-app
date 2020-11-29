@@ -58,7 +58,8 @@ class OnBoarding extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 32, horizontal: 32),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  gradient: LinearGradient(colors: [
+                  gradient: LinearGradient(
+                      colors: [
                     Color(0xFF5DE61A),
                     Color(0xFF39A801),
                   ]),

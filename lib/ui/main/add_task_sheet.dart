@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:todo/blocs/bloc.dart';
 import 'package:todo/database/database.dart';
 import 'package:todo/ui/common/item_category.dart';
-import 'package:todo/ui/main/navigation.dart';
+import 'package:todo/utils/custom_datetime_picker/flutter_datetime_picker.dart';
+import 'package:todo/utils/custom_datetime_picker/src/i18n_model.dart';
 import 'package:todo/utils/language_constants.dart';
 import 'package:todo/utils/style_guide.dart';
-
 import 'm_clipper.dart';
 
 class AddTaskSheet extends StatefulWidget {
   final TodoAppBloc bloc;
-  final MainNotifier mainNotifier;
+  final int categoryId;
   final List<Category> categories;
 
-  AddTaskSheet({this.bloc, this.mainNotifier, this.categories});
+  AddTaskSheet({this.bloc, this.categoryId, this.categories});
 
   @override
   _AddTaskSheetState createState() => _AddTaskSheetState();
@@ -38,7 +37,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   @override
   void initState() {
     super.initState();
-    categoryId = widget.mainNotifier.categoryId;
+    categoryId = widget.categoryId;
   }
 
   bool isToday(){
@@ -48,7 +47,13 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   @override
   Widget build(BuildContext context) {
     var locale = Localizations.localeOf(context).toString();
-    bool isEnglish  = locale == 'en';
+    LocaleType localeType;
+    switch(locale){
+      case 'en': localeType = LocaleType.en; break;
+      case 'ru': localeType = LocaleType.ru; break;
+      case 'uz': localeType = LocaleType.uz; break;
+    }
+
     return Container(
       height: 360,
       child: ClipPath(
@@ -140,7 +145,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                           });
                         },
                         currentTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute),
-                        locale: isEnglish ? LocaleType.en : LocaleType.ru,
+                        locale: localeType,
                     );
                   },
                   child: Row(

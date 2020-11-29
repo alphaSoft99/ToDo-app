@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/blocs/provider.dart';
 import 'package:todo/database/database.dart';
+import 'package:todo/utils/language_constants.dart';
 
 class TodoEditDialog extends StatefulWidget {
   final TodoEntry entry;
@@ -31,20 +32,20 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Edit entry'),
+      title: Text(localisedString(context, 'edit_entry')),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: textController,
             decoration: InputDecoration(
-              hintText: 'What needs to be done?',
-              helperText: 'Content of entry',
+              hintText: localisedString(context, 'what_need'),
+              helperText: localisedString(context, 'content_of_entry'),
             ),
           ),
           Row(
             children: <Widget>[
-              Text('formattedDate'),
+              Text(localisedString(context, 'formatted_date')),
               Spacer(),
               IconButton(
                 icon: const Icon(Icons.calendar_today),
@@ -72,21 +73,20 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
       ),
       actions: [
         FlatButton(
-          child: const Text('Cancel'),
+          child: Text(localisedString(context, 'cancel')),
           textColor: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         FlatButton(
-          child: const Text('Save'),
+          child: Text(localisedString(context, 'save')),
           onPressed: () {
             final updatedContent = textController.text;
             final entry = widget.entry.copyWith(
               content: updatedContent.isNotEmpty ? updatedContent : null,
               targetDate: _dueDate,
             );
-
             BlocProvider.provideBloc(context).updateEntry(entry);
             Navigator.pop(context);
           },

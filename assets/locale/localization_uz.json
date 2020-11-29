@@ -36,5 +36,14 @@
   "meeting": "Uchrashuv",
   "shopping": "Savdo",
   "party": "Bayram",
-  "study": "O'qish"
+  "study": "O'qish",
+  "edit_entry": "Yozuvni tahrirlash",
+  "what_need" : "Nima qilish kerak?",
+  "content_of_entry": "Kirish tarkibi",
+  "formatted_date": "Formatlangan sana",
+  "cancel": "Bekor qilish",
+  "save": "Saqlash",
+  "add_category": "Kategoriya qo'shing",
+  "name_category": "Kategoriya nomi",
+  "add": "Qo'shish"
 }

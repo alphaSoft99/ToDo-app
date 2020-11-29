@@ -45,7 +45,7 @@ class MainPageState extends State<MainPage>
     final mainNotifier = Provider.of<MainNotifier>(context);
     return StreamBuilder<NotificationDataWithTasksCount>(
       stream: bloc.mainData,
-      builder: (context, snapshot) {
+      builder: (_, snapshot) {
         if (snapshot.hasData) {
           mainNotifier.changeNotification(snapshot.data.todoEntry.isNotEmpty);
           if (snapshot.data.todoEntry != null && mainNotifier.showNotification) {
@@ -73,8 +73,7 @@ class MainPageState extends State<MainPage>
                               ]),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 44, left: 16, right: 16),
+                          padding: const EdgeInsets.only(top: 44, left: 16, right: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -94,12 +93,10 @@ class MainPageState extends State<MainPage>
                               SizedBox(
                                 height: 8,
                               ),
-                              mainNotifier.showNotification
-                                  ? AppBarNotification(
+                              mainNotifier.showNotification ? AppBarNotification(
                                 mainNotifier: mainNotifier,
                                       todoEntry: snapshot.data.todoEntry[0],
-                                    )
-                                  : SizedBox(),
+                              ) : SizedBox(),
                             ],
                           ),
                         ),
