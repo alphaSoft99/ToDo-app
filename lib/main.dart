@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:todo/database/database.dart';
-import 'package:todo/database/database/mobile.dart';
+import 'package:todo/database/mobile.dart';
 import 'package:todo/ui/main/mian_page.dart';
 import 'package:todo/ui/main/navigation.dart';
 import 'package:todo/utils/category.dart';
@@ -15,7 +15,6 @@ import 'package:todo/utils/translations.dart';
 import 'package:todo/utils/language_constants.dart';
 import 'blocs/bloc.dart';
 import 'blocs/provider.dart';
-import 'plugins/desktop/desktop.dart';
 
 /// This "Headless Task" is run when app is terminated.
 void backgroundFetchHeadlessTask(String taskId) async {
@@ -25,33 +24,37 @@ void backgroundFetchHeadlessTask(String taskId) async {
 
   if (taskId == 'alpha.soft.todo') {
     BackgroundFetch.scheduleTask(TaskConfig(
-        taskId: "alpha.soft.todo",
-        delay: 60000,
-        periodic: false,
-        forceAlarmManager: true,
-        stopOnTerminate: false,
-        enableHeadless: true
-    )).then((value) async {
+            taskId: "alpha.soft.todo",
+            delay: 60000,
+            periodic: false,
+            forceAlarmManager: true,
+            stopOnTerminate: false,
+            enableHeadless: true))
+        .then((value) async {
       final now = DateTime.now();
-      final Database db =constructDb(logStatements: true);
+      final Database db = constructDb(logStatements: true);
       final todoEntries = await db.getEntry(DateTime(now.year, now.month, now.day, now.hour, now.minute, 0, 0, 0));
-      final entry = todoEntries.isNotEmpty? todoEntries[0] : null;
-      if(entry!=null){
+      final entry = todoEntries.isNotEmpty ? todoEntries[0] : null;
+      if (entry != null) {
         String lang = await getLanguage();
         String category = '';
-        switch(lang){
-          case 'uz': category = getCategoryTextUz(entry.category); break;
-          case 'ru': category = getCategoryTextRu(entry.category); break;
-          case 'en': category = getCategoryTextEn(entry.category); break;
+        switch (lang) {
+          case 'uz':
+            category = getCategoryTextUz(entry.category);
+            break;
+          case 'ru':
+            category = getCategoryTextRu(entry.category);
+            break;
+          case 'en':
+            category = getCategoryTextEn(entry.category);
+            break;
         }
         var androidPlatformChannelSpecifics = AndroidNotificationDetails(
             'ToDo', 'ToDo notification', 'The notification reminds you of tasks',
             importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
         var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-        var platformChannelSpecifics = NotificationDetails(
-            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-        await flutterLocalNotificationsPlugin.show(entry.id, category, entry.content, platformChannelSpecifics,
-            payload: 'item x');
+        var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        await flutterLocalNotificationsPlugin.show(entry.id, category, entry.content, platformChannelSpecifics, payload: 'item x');
       }
       db.close();
     });
@@ -68,21 +71,16 @@ Future<void> main() async {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {
-        didReceiveLocalNotificationSubject.add(ReceivedNotification(
-            id: id, title: title, body: body, payload: payload));
+      onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {
+        didReceiveLocalNotificationSubject.add(ReceivedNotification(id: id, title: title, body: body, payload: payload));
       });
-  var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: ' + payload);
-        }
-        selectNotificationSubject.add(payload);
-      });
-  setTargetPlatformForDesktop(platform: TargetPlatform.android);
+  var initializationSettings = InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    selectNotificationSubject.add(payload);
+  });
   runApp(Main());
   BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
 }
@@ -127,18 +125,21 @@ class _MainState extends State<Main> {
 
   Future<void> initPlatformState() async {
     // Configure BackgroundFetch.
-    BackgroundFetch.configure(BackgroundFetchConfig(
-      minimumFetchInterval: 2881,
-      forceAlarmManager: false,
-      stopOnTerminate: false,
-      startOnBoot: true,
-      enableHeadless: true,
-      requiresBatteryNotLow: false,
-      requiresCharging: false,
-      requiresStorageNotLow: false,
-      requiresDeviceIdle: false,
-      requiredNetworkType: NetworkType.NONE,
-    ), _onBackgroundFetch).then((int status) {
+    BackgroundFetch.configure(
+            BackgroundFetchConfig(
+              minimumFetchInterval: 2881,
+              forceAlarmManager: false,
+              stopOnTerminate: false,
+              startOnBoot: true,
+              enableHeadless: true,
+              requiresBatteryNotLow: false,
+              requiresCharging: false,
+              requiresStorageNotLow: false,
+              requiresDeviceIdle: false,
+              requiredNetworkType: NetworkType.NONE,
+            ),
+            _onBackgroundFetch)
+        .then((int status) {
       print('[BackgroundFetch] configure success: $status');
     }).catchError((e) {
       print('[BackgroundFetch] configure ERROR: $e');
@@ -148,16 +149,13 @@ class _MainState extends State<Main> {
     // These are fairly reliable on Android (particularly with forceAlarmManager) but not iOS,
     // where device must be powered (and delay will be throttled by the OS).
     BackgroundFetch.scheduleTask(TaskConfig(
-        taskId: "alpha.soft.todo",
-        delay: 60000,
-        periodic: false,
-        forceAlarmManager: true,
-        stopOnTerminate: false,
-        enableHeadless: true
-    )).then((value) => {
-      print(value)
-    });
-
+            taskId: "alpha.soft.todo",
+            delay: 60000,
+            periodic: false,
+            forceAlarmManager: true,
+            stopOnTerminate: false,
+            enableHeadless: true))
+        .then((value) => {print(value)});
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
@@ -171,13 +169,13 @@ class _MainState extends State<Main> {
     if (taskId == "alpha.soft.todo") {
       // Schedule a one-shot task when fetch event received (for testing).
       BackgroundFetch.scheduleTask(TaskConfig(
-          taskId: "alpha.soft.todo",
-          delay: 60000,
-          periodic: false,
-          forceAlarmManager: true,
-          stopOnTerminate: false,
-          enableHeadless: true
-      )).then((value) async {
+              taskId: "alpha.soft.todo",
+              delay: 60000,
+              periodic: false,
+              forceAlarmManager: true,
+              stopOnTerminate: false,
+              enableHeadless: true))
+          .then((value) async {
         /*final now = DateTime.now();
         final todoEntry = await bloc.db.getEntry(now);
         if(todoEntry != null && todoEntry.targetDate.hour == now.hour && todoEntry.targetDate.minute == now.minute){
@@ -192,7 +190,6 @@ class _MainState extends State<Main> {
         }*/
       });
     }
-
 
     // IMPORTANT:  You must signal completion of your fetch task or the OS can punish your app
     // for taking too long in the background.
@@ -243,30 +240,21 @@ class _MainState extends State<Main> {
     });
   }
 
-
   void _requestIOSPermissions() {
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 
   void _configureDidReceiveLocalNotificationSubject() {
-    didReceiveLocalNotificationSubject.stream
-        .listen((ReceivedNotification receivedNotification) async {
+    didReceiveLocalNotificationSubject.stream.listen((ReceivedNotification receivedNotification) async {
       await showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: receivedNotification.title != null
-              ? Text(receivedNotification.title)
-              : null,
-          content: receivedNotification.body != null
-              ? Text(receivedNotification.body)
-              : null,
+          title: receivedNotification.title != null ? Text(receivedNotification.title) : null,
+          content: receivedNotification.body != null ? Text(receivedNotification.body) : null,
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -276,8 +264,7 @@ class _MainState extends State<Main> {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        Main(),
+                    builder: (context) => Main(),
                   ),
                 );
               },
@@ -290,9 +277,7 @@ class _MainState extends State<Main> {
 
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
-      await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Main()));
+      await Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
     });
   }
 
@@ -333,16 +318,12 @@ class _MainState extends State<Main> {
 */
 }
 
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 // Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
-final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-BehaviorSubject<ReceivedNotification>();
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject = BehaviorSubject<ReceivedNotification>();
 
-final BehaviorSubject<String> selectNotificationSubject =
-BehaviorSubject<String>();
+final BehaviorSubject<String> selectNotificationSubject = BehaviorSubject<String>();
 
 NotificationAppLaunchDetails notificationAppLaunchDetails;
 

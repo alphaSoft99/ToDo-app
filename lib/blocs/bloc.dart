@@ -1,6 +1,12 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:moor/moor.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:todo/database/database/mobile.dart';
+import 'package:todo/database/mobile.dart';
+import 'package:todo/service/notification_service.dart';
+import 'package:todo/service/send_data.dart';
+import 'package:todo/utils/language_constants.dart';
 import '../database/database.dart';
 
 /// Class that keeps information about a category and whether it's selected at
@@ -16,16 +22,17 @@ class NotificationDataWithTasksCount {
   List<TodoEntry> todoEntry;
   List<TodoEntry> tasks;
   List<Category> categories;
+
   NotificationDataWithTasksCount(this.todoEntry, this.tasks, this.categories);
 }
 
 class TodoAppBloc {
   final Database db;
   final dateTimeNow = DateTime.now();
+
   // the category that is selected at the moment. null means that we show all
   // entries
-  final BehaviorSubject<Category> _activeCategory =
-      BehaviorSubject.seeded(null);
+  final BehaviorSubject<Category> _activeCategory = BehaviorSubject.seeded(null);
 
   Observable<List<EntryWithCategory>> _currentEntries;
 
@@ -41,7 +48,7 @@ class TodoAppBloc {
   Observable<List<CategoryWithActiveInfo>> get categories => _allCategories;
 
   // ignore: close_sinks
-  final BehaviorSubject<NotificationDataWithTasksCount> _mainData =  BehaviorSubject();
+  final BehaviorSubject<NotificationDataWithTasksCount> _mainData = BehaviorSubject();
 
   Observable<NotificationDataWithTasksCount> get mainData => _mainData;
 
@@ -56,8 +63,7 @@ class TodoAppBloc {
 
     // also watch all categories so that they can be displayed in the navigation
     // drawer.
-    Observable.combineLatest2<List<CategoryWithCount>, Category,
-        List<CategoryWithActiveInfo>>(
+    Observable.combineLatest2<List<CategoryWithCount>, Category, List<CategoryWithActiveInfo>>(
       db.categoriesWithCount(),
       _activeCategory,
       (allCategories, selected) {
@@ -68,8 +74,7 @@ class TodoAppBloc {
       },
     ).listen(_allCategories.add);
 
-    Observable.combineLatest3<List<TodoEntry>, List<TodoEntry>, List<Category>,
-        NotificationDataWithTasksCount>(
+    Observable.combineLatest3<List<TodoEntry>, List<TodoEntry>, List<Category>, NotificationDataWithTasksCount>(
       db.notificationEntries(dateTimeNow),
       db.todayTasksCount(dateTimeNow),
       db.getCategory(),
@@ -89,14 +94,31 @@ class TodoAppBloc {
     showCategory(Category(id: id, description: description));
   }
 
-  void createEntry(TodoEntry todoEntry) {
+  void createEntry(TodoEntry todoEntry, BuildContext context, String category) async {
+    final token = await FirebaseMessaging().getToken();
+    //TODO find scheduler send fcm
+    /*sendData(
+      SendData(
+        data: Data(
+          clickAction: "FLUTTER_NOTIFICATION_CLICK",
+          isScheduled: "true",
+          scheduledTime: DateFormat("yyyy-MM-dd HH:mm:ss").format(todoEntry.targetDate),
+        ),
+        notification: NotificationData(
+          sound: "default",
+          body: localisedString(context, '$category'),
+          title: todoEntry.content,
+        ),
+        priority: "high",
+        to: token,
+      ),
+    );*/
     db.createEntry(TodosCompanion(
-      content: Value(todoEntry.content),
-      category: Value(todoEntry.category),
-      targetDate: Value(todoEntry.targetDate),
-      done: Value(todoEntry.done),
-      notification: Value(todoEntry.notification)
-    ));
+        content: Value(todoEntry.content),
+        category: Value(todoEntry.category),
+        targetDate: Value(todoEntry.targetDate),
+        done: Value(todoEntry.done),
+        notification: Value(todoEntry.notification)));
   }
 
   void updateEntry(TodoEntry entry) {

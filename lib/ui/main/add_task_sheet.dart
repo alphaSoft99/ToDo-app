@@ -28,7 +28,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   DateTime _dateTime = DateTime.now();
   bool showErrorContext = false;
 
-  changePos(int pos){
+  changePos(int pos) {
     setState(() {
       categoryId = pos;
     });
@@ -40,7 +40,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     categoryId = widget.categoryId;
   }
 
-  bool isToday(){
+  bool isToday() {
     return dateTime.day == _dateTime.day && dateTime.month == _dateTime.month && dateTime.year == _dateTime.year;
   }
 
@@ -48,10 +48,16 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   Widget build(BuildContext context) {
     var locale = Localizations.localeOf(context).toString();
     LocaleType localeType;
-    switch(locale){
-      case 'en': localeType = LocaleType.en; break;
-      case 'ru': localeType = LocaleType.ru; break;
-      case 'uz': localeType = LocaleType.uz; break;
+    switch (locale) {
+      case 'en':
+        localeType = LocaleType.en;
+        break;
+      case 'ru':
+        localeType = LocaleType.ru;
+        break;
+      case 'uz':
+        localeType = LocaleType.uz;
+        break;
     }
 
     return Container(
@@ -85,7 +91,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                     fontWeight: FontWeight.w400,
                   ),
                   decoration: InputDecoration(
-                    errorText: showErrorContext? localisedString(context, 'write_your_task') : null,
+                    errorText: showErrorContext ? localisedString(context, 'write_your_task') : null,
                   ),
                   maxLines: 2,
                   textInputAction: TextInputAction.done,
@@ -131,28 +137,30 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                   height: 8,
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     DatePicker.showDateTimePicker(
-                        context,
-                        showTitleActions: true,
-                        minTime: DateTime(dateTime.year, dateTime.month, dateTime.day),
-                        onChanged: (date) {
-                          print('changeDate: $date');
-                        },
-                        onConfirm: (date) {
-                          setState(() {
-                            _dateTime = date;
-                          });
-                        },
-                        currentTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute),
-                        locale: localeType,
+                      context,
+                      showTitleActions: true,
+                      minTime: DateTime(dateTime.year, dateTime.month, dateTime.day),
+                      onChanged: (date) {
+                        print('changeDate: $date');
+                      },
+                      onConfirm: (date) {
+                        setState(() {
+                          _dateTime = date;
+                        });
+                      },
+                      currentTime: DateTime(dateTime.year, dateTime.month, dateTime.day, dateTime.hour, dateTime.minute),
+                      locale: localeType,
                     );
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Text(
-                        isToday() ? "${localisedString(context, 'today')}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}" : "${localisedString(context, "month_${_dateTime.month}")} ${_dateTime.day}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}",
+                        isToday()
+                            ? "${localisedString(context, 'today')}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}"
+                            : "${localisedString(context, "month_${_dateTime.month}")} ${_dateTime.day}, ${_dateTime.hour.toString().padLeft(2, '0')} : ${_dateTime.minute.toString().padLeft(2, '0')}",
                         style: titleTextStyle.copyWith(fontWeight: FontWeight.w600, color: Color(0xFF404040)),
                       ),
                       SizedBox(
@@ -184,19 +192,28 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                   ),
                   child: InkWell(
                     onTap: () {
-                        if(_controller.text.isEmpty){
-                          setState(() {
-                            showErrorContext = true;
-                          });
-                          return;
-                        }
-                        else if(showErrorContext){
-                          setState(() {
-                            showErrorContext = false;
-                          });
-                        }
-                        widget.bloc.createEntry(TodoEntry(id: 0, content: _controller.text, notification: true, done: false, targetDate: DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour, _dateTime.minute, 0, 0, 0), category: categoryId));
-                        Navigator.pop(context);
+                      if (_controller.text.isEmpty) {
+                        setState(() {
+                          showErrorContext = true;
+                        });
+                        return;
+                      } else if (showErrorContext) {
+                        setState(() {
+                          showErrorContext = false;
+                        });
+                      }
+                      widget.bloc.createEntry(
+                          TodoEntry(
+                              id: 0,
+                              content: _controller.text,
+                              notification: true,
+                              done: false,
+                              targetDate:
+                                  DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour, _dateTime.minute, 0, 0, 0),
+                              category: categoryId),
+                          context,
+                          widget.categories[categoryId].description);
+                      Navigator.pop(context);
                     },
                     child: Center(
                       child: Text(
